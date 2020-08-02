@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <algorithm>
+
+int H[100003], S[100003], idx[400003], res[100003];
+
+int main(){
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int N, i, p, seq, st=1;
+	scanf("%d", &N);
+	while(st<N) st*=2;
+
+	for(i=1; i<=N; i++) scanf("%d", &H[i]);
+	std::sort(H+1, H+1+N);
+
+	for(i=1; i<=N; i++){
+		p=i+st-1;
+		idx[p]++;
+		while(p){
+			idx[p/2]++;
+			p/=2;
+		}
+	}
+
+	for(i=1; i<=N; i++) scanf("%d", &S[i]);
+
+	for(i=1; i<=N; i++){
+		p=1;
+		seq=S[N-i+1]+1;
+		while(p*2<st+N){
+			if(idx[p*2]>=seq) p*=2;
+			else{
+				seq-=idx[p*2];
+				p=p*2+1;
+			}
+		}
+		res[N-i+1]=H[p-st+1];
+		idx[p]--;
+		while(p){
+			idx[p/2]--;
+			p/=2;
+		}
+	}
+
+	for(i=1; i<=N; i++) printf("%d\n", res[i]);
+
+	return 0;
+}
