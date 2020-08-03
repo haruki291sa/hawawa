@@ -4,8 +4,6 @@
 int H[100003], S[100003], idx[400003], res[100003];
 
 int main(){
-	freopen("input.txt", "r", stdin);
-	freopen("output.txt", "w", stdout);
 	int N, i, p, seq, st=1;
 	scanf("%d", &N);
 	while(st<N) st*=2;
