@@ -1,0 +1,60 @@
+#include <cstdio>
+#include <vector>
+#include <queue>
+#include <set>
+using namespace std;
+
+vector<set<int> > vd;
+vector<set<int> > vb;
+bool v1[1003], v2[1003];
+void dfs(int i){
+	v2[i]=true;
+	set<int>::iterator it;
+	for(it=vd[i].begin(); it!=vd[i].end(); it++){
+		if(v2[*it]) continue;
+		printf("%d ", *it);
+		dfs(*it);
+	}
+	return;
+}
+
+void bfs(int st){
+	queue<int> q;
+	set<int>::iterator it;
+	int p;
+	q.push(st);
+	v1[st]=true;
+	while(!q.empty()){
+		p=q.front();
+		for(it=vb[p].begin(); it!=vb[p].end(); it++){
+			if(v1[*it]) continue;
+			q.push(*it);
+			v1[*it]=true;
+			printf("%d ", *it);
+		}
+		q.pop();
+	}
+	
+	return;
+}
+
+int main(){
+	int N, M, V, i, x, y;
+	scanf("%d %d %d", &N, &M, &V);
+	vd.resize(N+1);
+	vb.resize(N+1);
+	for(i=1; i<=M; i++){
+		scanf("%d %d", &x, &y);
+		vd[x].insert(y);
+		vd[y].insert(x);
+		vb[x].insert(y);
+		vb[y].insert(x);
+	}
+
+	printf("%d ", V);
+	dfs(V);
+	printf("\n%d ", V);
+	bfs(V);
+	
+	return 0;
+}
